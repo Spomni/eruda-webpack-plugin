@@ -2,6 +2,7 @@ const path = require('path')
 
 const { assert } = require('chai')
 const webpack = require('webpack')
+const webpack_5_0_0 = require('webpack_5.0.0')
 const { merge } = require('webpack-merge')
 
 const runCompiler = require('../lib/runCompiler')
@@ -18,7 +19,10 @@ describe('ErudaWebpackPlugin', function () {
   describe('with webpack@latest', function () {
     execSpec({ webpack })
   })
-
+  
+  describe('with webpack@5.0.0', function () {
+    execSpec({ webpack: webpack_5_0_0 })
+  })
 })
 
 function execSpec({ webpack }) {
