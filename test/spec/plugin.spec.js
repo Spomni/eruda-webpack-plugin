@@ -14,17 +14,25 @@ const defaultConfig = require('../config/default')
 describe('ErudaWebpackPlugin', function () {
 
   this.timeout(7000)
+  
+  describe('with webpack@latest', function () {
+    execSpec({ webpack })
+  })
+
+})
+
+function execSpec({ webpack }) {
 
   it('Should do nothing if the webpack mode is not "development".', async function () {
-
+  
     const cleanCompiler = webpack(merge(cleanConfig, contextConfig, {
       mode: 'production',
     }))
-
+  
     const extendCompiler = webpack(merge(cleanConfig, defaultConfig, {
       mode: 'production',
     }))
-
+  
     await runCompiler(cleanCompiler)
     const cleanContent = readFileFromDist('main.js')
     
@@ -33,17 +41,18 @@ describe('ErudaWebpackPlugin', function () {
     
     assert.strictEqual(cleanContent, extendContent)
   })
-
+  
   it('Should inject some code into .js output files.', async function () {
     
     const cleanCompiler = webpack(merge(cleanConfig, contextConfig))
     await runCompiler(cleanCompiler)
     const cleanContent = readFileFromDist('main.js')
-
+  
     const defaultCompiler = webpack(defaultConfig)
     await runCompiler(defaultCompiler)
     const defaultContent = readFileFromDist('main.js')
     
     assert.isAbove(defaultContent.length, cleanContent.length)
   })
-})
+
+}
